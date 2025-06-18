@@ -6,3 +6,4 @@ joblib
 statsmodels
 scikit-learn
 Flask
+gunicorn
