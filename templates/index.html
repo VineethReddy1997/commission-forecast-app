@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Commission Forecast Prediction</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="main-header">
+    <h1>Commission Management System</h1>
+  </header>
+
+  <div class="container">
+    <h2>Commission Forecast Prediction</h2>
+
+    <form method="post" action="/predict" enctype="multipart/form-data">
+      <div class="form-group">
+        <label>Select CSV File</label>
+        <input type="file" name="file" required>
+      </div>
+
+      <div class="form-group">
+        <label>Forecast Steps (Months)</label>
+        <input type="number" name="steps" min="1" value="5" required>
+      </div>
+
+      <button type="submit">Predict</button>
+    </form>
+
+    <!-- Error Message -->
+    {% if error %}
+      <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <!-- Results Table -->
+    {% if results %}
+      <h2>Forecast Results</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Forecasted Sale</th>
+            <th>Commission</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for sale, commission in results %}
+          <tr>
+            <td>{{ sale }}</td>
+            <td>{{ commission }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+
+    <!-- Download CSV -->
+    {% if download_file %}
+      <div style="text-align: center; margin-top: 20px;">
+        <a href="{{ url_for('download_file', filename=download_file) }}" class="download-button">Download Results as CSV</a>
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; {{ year }} Vineeth Reddy. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
